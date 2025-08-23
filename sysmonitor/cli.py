@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+#Author: Iddy Chesire
 import typer
 import platform
 import socket
@@ -6,10 +7,27 @@ import psutil
 from datetime import datetime
 from rich.console import Console
 from rich.table import Table
+from .banners import sysmonitor_banner_panel, sysmonitor_banner_big, sysmonitor_banner_ascii
 
 app = typer.Typer(help="SysMonitor - Cross-platform System Information Tool")
 console = Console()
 
+@app.callback(invoke_without_command=True)
+def main(
+    version: bool = typer.Option(False, "--version", help="Show version and exit"),
+    style: str = typer.Option("panel", "--style", help="ascii | panel | big")
+):
+    if version:
+        console.print("Sysmonitor v1.0.0")
+        raise typer.Exit()
+
+    if style == "ascii":
+        print(sysmonitor_banner_ascii())
+    elif style == "big":
+        sysmonitor_banner_big()
+    else:
+        sysmonitor_banner_panel("v1.0.0")
+        
 def print_table(title, data: dict):
     table = Table(title=title, show_header=True, header_style="bold cyan")
     table.add_column("Metric", style="dim", width=20)
@@ -34,7 +52,7 @@ def system():
         "Python Version": platform.python_version(),
         "IP Address": socket.gethostbyname(socket.gethostname()),
     }
-    print_table("System Information", data)
+    print_table("Basic System Information", data)
 
 @app.command()
 def cpu():
@@ -49,7 +67,7 @@ def cpu():
 
 @app.command()
 def memory():
-    """Show memory usage"""
+    """Show memory usage (RAM)"""
     mem = psutil.virtual_memory()
     data = {
         "Total (MB)": mem.total // (1024**2),
@@ -60,7 +78,7 @@ def memory():
 
 @app.command()
 def disk():
-    """Show disk usage"""
+    """Show disk usage (SSD/HDD)"""
     table = Table(title="Disk Usage (SSD/HDD)", header_style="bold cyan")
     table.add_column("Device", style="dim")
     table.add_column("Mountpoint", style="cyan")
@@ -147,7 +165,7 @@ def processes():
     console.print(table)
 @app.command()
 def all():
-    """Monitor all """
+    """Monitor all of the above"""
     console.rule("[bold green] System Monitor - Full Report [/bold green]")
     system()
     cpu()

@@ -111,6 +111,6 @@ sysmonitor all         # Print everything in one view
 
 ---
 
-## 📄 License
+## 📄 By
 
-MIT License © 2025 \[Iddy Chesire]
+© 2025 \[Iddy Chesire]
