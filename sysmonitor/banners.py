@@ -6,10 +6,10 @@ from rich import box
 console = Console()
 
 def sysmonitor_banner_panel(version: str = "v1.0.0"):
-    title = Text("SYSMONITOR", justify="center", style="bold cyan")
-    sub   = Text(f"System Insights • {version}", justify="center", style="dim")
+    title = Text("SYSMONITOR By Iddy", justify="center", style="bold cyan")
+    sub   = Text(f"Your System Information Insights • {version}", justify="center", style="dim")
     body  = Text.from_markup(
-        "[bold]CPU[/bold] • [bold]MEM[/bold] • [bold]DISK[/bold] • [bold]NET[/bold] • [bold]PROC[/bold]",
+        "[bold]CPU[/bold] * [bold]MEM[/bold] * [bold]DISK[/bold] * [bold]NET[/bold] * [bold]PROC[/bold]",
         justify="center"
     )
     panel_text = Text.assemble(title, "\n", sub, "\n\n", body)
