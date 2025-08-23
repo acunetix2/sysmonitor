@@ -100,10 +100,13 @@ def processes():
 if __name__ == "__main__":
     app()
 
-def main():
+def all():
     system()
     cpu()
+    memory()
+    disk()
     network()
     processes()
-    
-    console.print(table)
+
+if __name__ == "__main__":
+    app()
