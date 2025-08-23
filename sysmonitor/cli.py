@@ -130,7 +130,7 @@ def processes():
         ["pid", "name", "username", "status", "cpu_percent", "memory_percent", "num_threads", "create_time"]
     ):
         try:
-            start_time = datetime.datetime.fromtimestamp(proc.info["create_time"]).strftime("%Y-%m-%d %H:%M:%S")
+            start_time = datetime.fromtimestamp(proc.info["create_time"]).strftime("%Y-%m-%d %H:%M:%S")
             table.add_row(
                 str(proc.info["pid"]),
                 proc.info["name"] or "N/A",
