@@ -60,6 +60,7 @@ def disk():
     table.add_column("Mountpoint", style="cyan")
     table.add_column("Used", style="magenta")
     table.add_column("Total", style="green")
+    able.add_column("Remaining",style="green")
     for part in psutil.disk_partitions():
         try:
             usage = psutil.disk_usage(part.mountpoint)
@@ -68,6 +69,7 @@ def disk():
                 part.mountpoint,
                 f"{usage.used // (1024**3)} GB",
                 f"{usage.total // (1024**3)} GB",
+                f"{usage.free // (1024**3)} GB",
             )
         except PermissionError:
             continue
