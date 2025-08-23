@@ -74,7 +74,7 @@ def memory():
         "Used (MB)": mem.used // (1024**2),
         "Free (MB)": mem.available // (1024**2),
     }
-    print_table("Memory Information RAM", data)
+    print_table("Memory Information RAM (MB)", data)
 
 @app.command()
 def disk():
@@ -143,7 +143,8 @@ def processes():
     table.add_column("Memory %", style="blue", justify="right")
     table.add_column("Threads", style="cyan", justify="right")
     table.add_column("Start Time", style="white")
-
+    
+    processes = sorted(processes, key=lambda proc: proc["cpu_percent"], reverse=True)[:15]
     for proc in psutil.process_iter(
         ["pid", "name", "username", "status", "cpu_percent", "memory_percent", "num_threads", "create_time"]
     ):
