@@ -10,7 +10,7 @@ setup(
             "sysmonitor=sysmonitor.cli:app",
         ],
     },
-    author="Your Name",
+    author="Iddy Chesire",
     description="Cross-platform CLI tool to collect system and resource usage info",
     license="MIT",
     python_requires=">=3.7",
