@@ -132,7 +132,7 @@ def network():
 
     console.print(table)
 @app.command()
-def processes(limit: int = 10):
+def processes(limit: int = 15):
     table = Table(title="Top Running Processes", header_style="bold cyan")
     table.add_column("PID", style="dim", width=8)
     table.add_column("Name", style="magenta")
