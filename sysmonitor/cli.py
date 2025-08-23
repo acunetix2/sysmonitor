@@ -97,9 +97,6 @@ def processes():
         table.add_row(str(p.info['pid']), p.info['name'], str(p.info['cpu_percent']))
     console.print(table)
 
-if __name__ == "__main__":
-    app()
-
 def all():
     """Monitor all """
     system()
