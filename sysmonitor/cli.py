@@ -132,9 +132,8 @@ def network():
 
     console.print(table)
 @app.command()
-def processes():
-    """Show detailed running processes"""
-    table = Table(title="Running Processes", header_style="bold cyan")
+def top_processes_table(limit: int = 10):
+    table = Table(title="Top Running Processes", header_style="bold cyan")
     table.add_column("PID", style="dim", width=8)
     table.add_column("Name", style="magenta")
     table.add_column("User", style="green")
@@ -143,25 +142,30 @@ def processes():
     table.add_column("Memory %", style="blue", justify="right")
     table.add_column("Threads", style="cyan", justify="right")
     table.add_column("Start Time", style="white")
-    
-    processes = sorted(processes, key=lambda proc: proc["cpu_percent"], reverse=True)[:15]
+
+    processes = []
     for proc in psutil.process_iter(
         ["pid", "name", "username", "status", "cpu_percent", "memory_percent", "num_threads", "create_time"]
     ):
         try:
-            start_time = datetime.fromtimestamp(proc.info["create_time"]).strftime("%Y-%m-%d %H:%M:%S")
-            table.add_row(
-                str(proc.info["pid"]),
-                proc.info["name"] or "N/A",
-                proc.info["username"] or "N/A",
-                proc.info["status"],
-                f"{proc.info['cpu_percent']:.1f}",
-                f"{proc.info['memory_percent']:.1f}",
-                str(proc.info["num_threads"]),
-                start_time,
-            )
+            processes.append(proc.info)
         except (psutil.NoSuchProcess, psutil.AccessDenied):
             continue
+    #Sorting
+    processes = sorted(processes, key=lambda p: p["cpu_percent"], reverse=True)[:limit]
+
+    for p in processes:
+        start_time = datetime.fromtimestamp(p["create_time"]).strftime("%Y-%m-%d %H:%M:%S")
+        table.add_row(
+            str(p["pid"]),
+            p["name"] or "N/A",
+            p["username"] or "N/A",
+            p["status"],
+            f"{p['cpu_percent']:.1f}",
+            f"{p['memory_percent']:.1f}",
+            str(p["num_threads"]),
+            start_time,
+        )
 
     console.print(table)
 @app.command()
