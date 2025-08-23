@@ -100,12 +100,14 @@ def processes():
 @app.command()
 def all():
     """Monitor all """
+    console.rule("[bold green] System Monitor - Full Report [/bold green]")
     system()
     cpu()
     memory()
     disk()
     network()
     processes()
+    console.rule("[bold green] End of Report [/bold green]")
 
 if __name__ == "__main__":
     app()
