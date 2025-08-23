@@ -70,7 +70,7 @@ def memory():
     """Show memory usage (RAM)"""
     mem = psutil.virtual_memory()
     data = {
-        "Total (MB)": mem.total // (1024**2),
+        "Total (MB)": mem.total // (1024**2) "GB",
         "Used (MB)": mem.used // (1024**2),
         "Free (MB)": mem.available // (1024**2),
     }
