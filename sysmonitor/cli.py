@@ -93,7 +93,7 @@ def processes():
     table.add_column("Name", style="magenta")
     table.add_column("CPU %", style="green")
     for p in sorted(psutil.process_iter(['pid','name','cpu_percent']),
-                    key=lambda x: x.info['cpu_percent'], reverse=True)[:5]:
+                    key=lambda x: x.info['cpu_percent'], reverse=True)[:20]:
         table.add_row(str(p.info['pid']), p.info['name'], str(p.info['cpu_percent']))
     console.print(table)
 
