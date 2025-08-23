@@ -92,7 +92,7 @@ def network():
     table.add_column("MTU", style="cyan")
     table.add_column("Speed (Mbps)", style="bold blue")
     table.add_column("Status", style="bold")
-
+    
     addrs = psutil.net_if_addrs()
     stats = psutil.net_if_stats()
 
@@ -115,16 +115,36 @@ def network():
     console.print(table)
 @app.command()
 def processes():
-    """Show top 5 processes by CPU"""
-    table = Table(title="Top Processes (by CPU)", header_style="bold cyan")
-    table.add_column("PID", style="dim")
+    """Show detailed running processes"""
+    table = Table(title="Running Processes", header_style="bold cyan")
+    table.add_column("PID", style="dim", width=8)
     table.add_column("Name", style="magenta")
-    table.add_column("CPU %", style="green")
-    for p in sorted(psutil.process_iter(['pid','name','cpu_percent']),
-                    key=lambda x: x.info['cpu_percent'], reverse=True)[:20]:
-        table.add_row(str(p.info['pid']), p.info['name'], str(p.info['cpu_percent']))
-    console.print(table)
+    table.add_column("User", style="green")
+    table.add_column("Status", style="yellow")
+    table.add_column("CPU %", style="red", justify="right")
+    table.add_column("Memory %", style="blue", justify="right")
+    table.add_column("Threads", style="cyan", justify="right")
+    table.add_column("Start Time", style="white")
 
+    for proc in psutil.process_iter(
+        ["pid", "name", "username", "status", "cpu_percent", "memory_percent", "num_threads", "create_time"]
+    ):
+        try:
+            start_time = datetime.datetime.fromtimestamp(proc.info["create_time"]).strftime("%Y-%m-%d %H:%M:%S")
+            table.add_row(
+                str(proc.info["pid"]),
+                proc.info["name"] or "N/A",
+                proc.info["username"] or "N/A",
+                proc.info["status"],
+                f"{proc.info['cpu_percent']:.1f}",
+                f"{proc.info['memory_percent']:.1f}",
+                str(proc.info["num_threads"]),
+                start_time,
+            )
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            continue
+
+    console.print(table)
 @app.command()
 def all():
     """Monitor all """
