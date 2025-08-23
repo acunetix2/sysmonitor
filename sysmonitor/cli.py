@@ -23,10 +23,15 @@ def system():
     """Show basic system information"""
     data = {
         "Hostname": socket.gethostname(),
-        "OS": f"{platform.system()} {platform.release()}",
+        "Node Name": uname.node,
+        "OS": f"{uname.system} {uname.release}",
+        "Version": uname.version,
         "Kernel": platform.version(),
-        "Architecture": platform.machine(),
-        "Uptime": datetime.fromtimestamp(psutil.boot_time()).strftime("%Y-%m-%d %H:%M:%S"),
+        "Architecture": uname.machine,
+        "Processor": uname.processor or "Unknown",
+        "Boot Time": datetime.fromtimestamp(psutil.boot_time()).strftime("%Y-%m-%d %H:%M:%S"),
+        "Python Version": platform.python_version(),
+        "IP Address": socket.gethostbyname(socket.gethostname()),
     }
     print_table("System Information", data)
 
