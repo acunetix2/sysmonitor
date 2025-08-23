@@ -1,7 +1,7 @@
 # SysMonitor
 
 A **cross-platform CLI tool** to collect **system and resource usage information** such as CPU, memory, disk, network, and running processes. Built with **Python**, powered by `psutil`, `typer`, and `rich`.
-
+**Author:** **Iddy Chesire**
 ---
 
 ## Features
