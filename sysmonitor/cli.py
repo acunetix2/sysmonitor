@@ -83,16 +83,36 @@ def disk():
 
 @app.command()
 def network():
-    """Show network interfaces"""
+    """Show detailed network interfaces info"""
     table = Table(title="Network Interfaces", header_style="bold cyan")
     table.add_column("Interface", style="dim")
-    table.add_column("IP Address", style="magenta")
-    for name, stats in psutil.net_if_addrs().items():
-        for s in stats:
-            if s.family == socket.AF_INET:
-                table.add_row(name, s.address)
-    console.print(table)
+    table.add_column("IPv4", style="magenta")
+    table.add_column("IPv6", style="green")
+    table.add_column("MAC Address", style="yellow")
+    table.add_column("MTU", style="cyan")
+    table.add_column("Speed (Mbps)", style="bold blue")
+    table.add_column("Status", style="bold")
 
+    addrs = psutil.net_if_addrs()
+    stats = psutil.net_if_stats()
+
+    for name, addr_list in addrs.items():
+        ipv4, ipv6, mac = "-", "-", "-"
+        for s in addr_list:
+            if s.family == socket.AF_INET:
+                ipv4 = s.address
+            elif s.family == socket.AF_INET6:
+                ipv6 = s.address
+            elif s.family == psutil.AF_LINK:  # MAC
+                mac = s.address
+
+        mtu = stats[name].mtu if name in stats else "-"
+        speed = stats[name].speed if name in stats else "-"
+        isup = "Up" if stats[name].isup else "Down" if name in stats else "?"
+
+        table.add_row(name, ipv4, ipv6, mac, str(mtu), str(speed), isup)
+
+    console.print(table)
 @app.command()
 def processes():
     """Show top 5 processes by CPU"""
