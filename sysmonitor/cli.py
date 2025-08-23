@@ -99,3 +99,11 @@ def processes():
 
 if __name__ == "__main__":
     app()
+
+def main():
+    system()
+    cpu()
+    network()
+    processes()
+    
+    console.print(table)
