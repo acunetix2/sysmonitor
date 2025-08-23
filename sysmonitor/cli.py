@@ -132,7 +132,7 @@ def network():
 
     console.print(table)
 @app.command()
-def top_processes_table(limit: int = 10):
+def processes(limit: int = 10):
     table = Table(title="Top Running Processes", header_style="bold cyan")
     table.add_column("PID", style="dim", width=8)
     table.add_column("Name", style="magenta")
@@ -151,7 +151,8 @@ def top_processes_table(limit: int = 10):
             processes.append(proc.info)
         except (psutil.NoSuchProcess, psutil.AccessDenied):
             continue
-    #Sorting
+
+    # sorting 
     processes = sorted(processes, key=lambda p: p["cpu_percent"], reverse=True)[:limit]
 
     for p in processes:
