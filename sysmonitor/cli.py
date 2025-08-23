@@ -101,7 +101,7 @@ if __name__ == "__main__":
     app()
 
 def all():
-"""Monitor all """
+    """Monitor all """
     system()
     cpu()
     memory()
