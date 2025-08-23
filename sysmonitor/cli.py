@@ -56,12 +56,12 @@ def memory():
         "Used (MB)": mem.used // (1024**2),
         "Free (MB)": mem.available // (1024**2),
     }
-    print_table("Memory Information", data)
+    print_table("Memory Information RAM", data)
 
 @app.command()
 def disk():
     """Show disk usage"""
-    table = Table(title="Disk Usage", header_style="bold cyan")
+    table = Table(title="Disk Usage (SSD/HDD)", header_style="bold cyan")
     table.add_column("Device", style="dim")
     table.add_column("Mountpoint", style="cyan")
     table.add_column("Used", style="magenta")
