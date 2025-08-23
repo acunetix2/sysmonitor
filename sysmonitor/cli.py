@@ -7,7 +7,7 @@ import psutil
 from datetime import datetime
 from rich.console import Console
 from rich.table import Table
-from .banners import sysmonitor_banner_panel, sysmonitor_banner_big, sysmonitor_banner_ascii
+from .banners import sysmonitor_banner_panel
 
 app = typer.Typer(help="SysMonitor - Cross-platform System Information Tool")
 console = Console()
