@@ -21,6 +21,7 @@ def print_table(title, data: dict):
 @app.command()
 def system():
     """Show basic system information"""
+    uname = platform.uname()
     data = {
         "Hostname": socket.gethostname(),
         "Node Name": uname.node,
