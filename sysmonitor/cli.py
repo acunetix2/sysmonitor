@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#Author: Iddy Chesire
+
 import typer
 import platform
 import socket
